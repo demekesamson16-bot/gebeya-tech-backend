@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+gebeya.db
+uploads/
+.env
+.env.local
