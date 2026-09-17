@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     async_sessionmaker,
@@ -29,4 +30,37 @@ class Base(DeclarativeBase):
 
 async def get_db():
     async with SessionLocal() as session:
+=======
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_sessionmaker,
+    AsyncSession,
+)
+from sqlalchemy.orm import DeclarativeBase
+
+from .config import settings
+
+
+engine = create_async_engine(
+    settings.DATABASE_URL,
+    echo=False,
+    # Required for Supabase's pgbouncer connection pooler
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+    },
+)
+
+SessionLocal = async_sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
+)
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+async def get_db():
+    async with SessionLocal() as session:
+>>>>>>> 8cd8cd6ae22d7b25daeee3d119f1400c35df92cb
         yield session
