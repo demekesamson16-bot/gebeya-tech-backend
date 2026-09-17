@@ -9,8 +9,8 @@ from aiogram.types import Update
 from .config import settings
 from .database import Base, engine
 from .bot import bot, dp, setup_menu_button
-from .routers import products, orders, uploads, checklists, imei
-from .seed import seed_if_empty
+from .routers import products, orders, uploads, checklists, imei, phones
+from .seed import seed_if_empty, seed_phone_specs
 
 
 @asynccontextmanager
@@ -18,6 +18,7 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     await seed_if_empty()
+    await seed_phone_specs()
     try:
         await setup_menu_button()
     except Exception as e:
@@ -40,6 +41,7 @@ app.include_router(orders.router)
 app.include_router(uploads.router)
 app.include_router(checklists.router)
 app.include_router(imei.router)
+app.include_router(phones.router)
 
 UPLOAD_DIR = Path(__file__).resolve().parent.parent / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

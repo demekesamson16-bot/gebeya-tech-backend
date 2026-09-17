@@ -90,3 +90,24 @@ class ProductUpdate(BaseModel):
     stock: int | None = None
     category_id: int | None = None
     is_active: bool | None = None
+
+
+class PhoneSpecOut(BaseModel):
+    id: int
+    brand: str
+    model: str
+    release_year: int
+    screen_size: str | None = None
+    screen_type: str | None = None
+    refresh_rate: str | None = None
+    battery: str | None = None
+    camera_main: str | None = None
+    camera_front: str | None = None
+    ram: str | None = None
+    chipset: str | None = None
+    os: str | None = None
+    weight: str | None = None
+    image_url: str | None = None
+
+    class Config:
+        from_attributes = True

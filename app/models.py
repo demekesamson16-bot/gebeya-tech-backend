@@ -39,14 +39,11 @@ class Product(Base):
     price: Mapped[float] = mapped_column(Float)
     old_price: Mapped[float | None] = mapped_column(Float, nullable=True)
 
-    # Primary image (used in the grid) + full list of images (used on detail page)
     image_url: Mapped[str] = mapped_column(String(500), default="")
     image_urls: Mapped[list] = mapped_column(JSON, default=list)
 
-    # Flexible specs (brand, model, storage, RAM, battery, condition, location...)
     specs: Mapped[dict] = mapped_column(JSON, default=dict)
 
-    # Warranty (e.g. "6-Month Warranty")
     warranty: Mapped[str | None] = mapped_column(String(100), nullable=True)
 
     stock: Mapped[int] = mapped_column(Integer, default=0)
@@ -89,3 +86,31 @@ class OrderItem(Base):
     quantity: Mapped[int] = mapped_column(Integer, default=1)
 
     order: Mapped["Order"] = relationship(back_populates="items")
+
+
+class PhoneSpec(Base):
+    __tablename__ = "phone_specs"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    brand: Mapped[str] = mapped_column(String(32), index=True)
+    model: Mapped[str] = mapped_column(String(120), index=True)
+    release_year: Mapped[int] = mapped_column(Integer, index=True)
+
+    # Screen
+    screen_size: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    screen_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    refresh_rate: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    # Battery & Camera
+    battery: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    camera_main: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    camera_front: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    # Performance
+    ram: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    chipset: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    os: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    # Extra
+    weight: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
